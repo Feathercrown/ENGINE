@@ -2,7 +2,7 @@
   "name": "engine",
   "version": "1.0.0",
   "description": "Epic Non-specific Game Implementation Nesting E.N.G.I.N.E.",
-  "main": "src/test.js",
+  "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

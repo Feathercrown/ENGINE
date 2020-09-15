@@ -1,83 +1,24 @@
-exports.GameSpace = class GameSpace {
-    constructor(meta, pieces){
-        this.meta = meta || {};
-        this.pieces = pieces || new Map();
-    }
-}
+const { GameSpace, GamePiece, GameProperty, GamePropertyModifier } = require('./ENGINE.js');
 
-exports.GamePiece = class GamePiece {
-    constructor(meta, properties, watchers){
-        this.meta = meta || {};
-        this.properties = properties || new Map();
-        this.watchers = watchers || [];
-    }
-}
+var test = new GameSpace({
+    name:'test',
+    id:0
+}, mapFrom([
+    [
+        'board', new GamePiece({
+            name:'board'
+        }, mapFrom([
+            [
+                'name', new GameProperty('board')
+            ]
+        ]))
+    ]
+]));
 
-exports.GameProperty = class GameProperty {
-    constructor(key, value, modifiers, lockLevel){
-        this.key = key; //NOTE: Required
-        this.value = value || null;
-        this.modifiers = modifiers || null;
-        this.lockLevel = lockLevel || 0;
-    }
+console.log(test);
 
-    get(){
-        var mods = this.modifiers.sort((mod1, mod2)=>(mod1.priority - mod2.priority));
-        return mods.reduce((acc, cur)=>cur.modify(acc, this), this.value);
-    }
-
-    set(keyLevel){
-        if((keyLevel||0) < this.lockLevel){
-            return false;
-        }
-        //TODO: ???
-        return true;
-    }
-}
-
-exports.GamePropertyModifier = class GamePropertyModifier {
-    constructor(priority, type, value){
-        this.priority = priority;
-        this.type = type;
-        this.value = value;
-    }
-
-    modify(input, piece){
-        switch(this.type){
-            case "+":
-            case "add":
-            case "plus":
-                return input + this.value;
-            case "-":
-            case "subtract":
-            case "minus":
-                return input - this.value;
-            case "*":
-            case "multiply":
-            case "times":
-                return input * this.value;
-            case "/":
-            case "divide":
-            case "divided by":
-                return input / this.value;
-            case "%":
-            case "modulo":
-            case "modulus":
-                return input % this.value;
-            case "mathFunc":
-            case "mathFunction":
-                return Math[this.value](input);
-            case "custom":
-            case "func":
-            case "function":
-                return this.value(input);
-            case "":
-            case "nothing":
-            case "none":
-                return input;
-            default: //TODO: Default case error log fallthrough to explicit case "return input;"?
-                //TODO: Log failure case
-                return input;
-        }
-    }
+function mapFrom(array){
+    var map = new Map();
+    array.forEach(pair => map.set(pair[0], pair[1]));
+    return map;
 }
