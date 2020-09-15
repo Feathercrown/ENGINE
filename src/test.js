@@ -1,2 +1,4 @@
-const ENGINE = require('main.js');
-console.log(ENGINE);
+const { GameSpace, GamePiece, GameProperty, GamePropertyModifier } = require('./main.js');
+console.log(GameSpace);
+
+var test = new GameSpace();

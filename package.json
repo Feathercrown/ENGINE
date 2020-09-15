@@ -1,0 +1,19 @@
+{
+  "name": "engine",
+  "version": "1.0.0",
+  "description": "Epic Non-specific Game Implementation Nesting E.N.G.I.N.E.",
+  "main": "src/test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Feathercrown/ENGINE.git"
+  },
+  "author": "Gabriel M. Buonomano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Feathercrown/ENGINE/issues"
+  },
+  "homepage": "https://github.com/Feathercrown/ENGINE#readme"
+}
