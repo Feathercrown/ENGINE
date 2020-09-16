@@ -3,22 +3,17 @@ const { GameSpace, GamePiece, GameProperty, GamePropertyModifier } = require('./
 var test = new GameSpace({
     name:'test',
     id:0
-}, mapFrom([
-    [
-        'board', new GamePiece({
+}, new Map()
+    .set('board', new GamePiece({
             name:'board'
-        }, mapFrom([
-            [
-                'name', new GameProperty('board')
-            ]
-        ]))
-    ]
-]));
+        }, new Map()
+            .set('name', new GameProperty('board'))
+        )
+    )
+    .set('player', new GamePiece({}, new Map()
+            .set('name', new GameProperty('player'))
+        )
+    )
+);
 
 console.log(test);
-
-function mapFrom(array){
-    var map = new Map();
-    array.forEach(pair => map.set(pair[0], pair[1]));
-    return map;
-}
