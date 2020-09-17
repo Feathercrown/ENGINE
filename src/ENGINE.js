@@ -80,3 +80,10 @@ exports.GamePropertyModifier = class GamePropertyModifier {
         }
     }
 }
+
+exports.GameAction = class GameAction {
+    constructor(type, args){
+        this.type = type;
+        this.args = args;
+    }
+}
