@@ -1,4 +1,4 @@
-const { GameSpace, GamePiece, GameProperty, GamePropertyModifier, GameAction } = require('./ENGINE.js');
+const { GameSpace, GamePiece, GameProperty, GamePropertyModifier, SimpleGameAction, MetaGameAction } = require('./ENGINE.js');
 
 var test = new GameSpace({
     name:'test',

@@ -1,3 +1,7 @@
+var Symbols = {
+    argument: new Symbol('argument')
+};
+
 exports.GameSpace = class GameSpace {
     constructor(meta, pieces){
         this.meta = meta || {};
@@ -87,7 +91,8 @@ exports.SimpleGameAction = class GameAction {
         this.options = options;
     }
 
-    run(){
+    run(args){
+        this.options = substituteArguments(this.options, args);
         switch(this.type){
             case 'setProperty':
                 var property = this.options.property;
@@ -103,6 +108,9 @@ exports.SimpleGameAction = class GameAction {
                 var info = this.options.info;
                 object.setProperty(property+object.getProperty(property), value, {method:'indirect', ...info});
                 break;
+            //TODO: Push, pop, shift, unshift, etc. (basically array operations and map support)
+            //TODO: Delete, create, and clone gameObjects
+            //TODO: ??? idk lol
             default:
                 console.error("Invalid simple game function!");
                 break;
@@ -116,7 +124,8 @@ exports.MetaGameAction = class MetaGameAction {
         this.options = options;
     }
 
-    run(){
+    run(args){
+        this.options = substituteArguments(this.options, args);
         switch(this.type){
             case 'if':
                 if({
@@ -127,22 +136,37 @@ exports.MetaGameAction = class MetaGameAction {
                     ge: (this.options.left >= this.options.right),
                     ne: (this.options.left != this.options.right)
                 }[this.options.type]||false){
-                    this.options.trueFunc.run();
+                    this.options.trueFunc.run(args);
                 } else {
-                    this.options.falseFunc.run();
+                    this.options.falseFunc.run(args);
                 }
                 break;
             case 'loop':
                 for(var i=0; i<this.options.count; i++){
-                    this.options.func.run();
+                    this.options.func.run(args);
                 }
                 break;
             case 'random':
-                this.options.funcs[Math.floor(Math.random()*this.options.funcs.length)].run();
+                this.options.funcs[Math.floor(Math.random()*this.options.funcs.length)].run(args);
                 break;
             default:
                 console.error("Invalid meta game function!");
                 break;
         }
     }
+}
+
+function substituteArguments(options, args){
+    options.entries.forEach((entry)=>{
+        var key = entry[0];
+        var value = entry[1];
+        if(Array.isArray(value) && value[0] == Symbols.argument){
+            if(args && args.hasOwnProperty(value[1])){
+                options[key] = args[value[1]];
+            } else {
+                console.error("Argument not found; cannot substitute!");
+            }
+        }
+    });
+    return options;
 }
