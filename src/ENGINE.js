@@ -81,9 +81,68 @@ exports.GamePropertyModifier = class GamePropertyModifier {
     }
 }
 
-exports.GameAction = class GameAction {
-    constructor(type, args){
+exports.SimpleGameAction = class GameAction {
+    constructor(type, options){
         this.type = type;
-        this.args = args;
+        this.options = options;
+    }
+
+    run(){
+        switch(this.type){
+            case 'setProperty':
+                var property = this.options.property;
+                var value = this.options.value;
+                var object = this.options.object;
+                var info = this.options.info;
+                object.setProperty(property, value, {method:'direct', ...info});
+                break;
+            case 'addProperty': //TODO: Keep?
+                var property = this.options.property;
+                var value = this.options.value;
+                var object = this.options.object;
+                var info = this.options.info;
+                object.setProperty(property+object.getProperty(property), value, {method:'indirect', ...info});
+                break;
+            default:
+                console.error("Invalid simple game function!");
+                break;
+        }
+    }
+}
+
+exports.MetaGameAction = class MetaGameAction {
+    constructor(type, options){
+        this.type = type;
+        this.options = options;
+    }
+
+    run(){
+        switch(this.type){
+            case 'if':
+                if({
+                    eq: (this.options.left == this.options.right),
+                    lt: (this.options.left <  this.options.right),
+                    gt: (this.options.left >  this.options.right),
+                    le: (this.options.left <= this.options.right),
+                    ge: (this.options.left >= this.options.right),
+                    ne: (this.options.left != this.options.right)
+                }[this.options.type]||false){
+                    this.options.trueFunc.run();
+                } else {
+                    this.options.falseFunc.run();
+                }
+                break;
+            case 'loop':
+                for(var i=0; i<this.options.count; i++){
+                    this.options.func.run();
+                }
+                break;
+            case 'random':
+                this.options.funcs[Math.floor(Math.random()*this.options.funcs.length)].run();
+                break;
+            default:
+                console.error("Invalid meta game function!");
+                break;
+        }
     }
 }

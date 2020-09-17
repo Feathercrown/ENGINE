@@ -38,6 +38,10 @@ var test = new GameSpace({
             .set('setupArgs', new GameAction())
         )
     )
+    .set('setupHandler', new GamePiece({}, new Map()
+            .set('name', new GameProperty('setupHandler'))
+        )
+    )
 );
 
 console.log(test);
