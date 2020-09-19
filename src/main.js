@@ -4,7 +4,7 @@ var test = new GameSpace({
     name:'test',
     id:0
 }, new Map()
-    .set('board', new GamePiece({}, new Map()
+    .set('board', new GamePiece(new Map()
             .set('squares', new GameProperty('rTgTgXbXrXgObOyXgOrX\n'+
                                              'yO------bX----s1--bT\n'+
                                              'yT------rT--------yX\n'+
@@ -23,7 +23,7 @@ var test = new GameSpace({
             .set('physical', new GameProperty(true))
         )
     )
-    .set('playerHandler', new GamePiece({}, new Map()
+    .set('playerHandler', new GamePiece(new Map()
             .set('name', new GameProperty('playerHandler'))
             .set('playerCount', new GameProperty(2))
             .set('playerSettings', new GameProperty([
@@ -38,10 +38,16 @@ var test = new GameSpace({
             .set('setupArgs', new GameAction())
         )
     )
-    .set('setupHandler', new GamePiece({}, new Map()
+    .set('setupHandler', new GamePiece(new Map()
             .set('name', new GameProperty('setupHandler'))
         )
     )
+    .set('piece', new GamePiece(new Map()
+            .set('name', new GameProperty('setupHandler'))
+            .set('template', new GameProperty(true))
+        )
+    )
+    
 );
 
 console.log(test);

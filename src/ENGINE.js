@@ -10,11 +10,12 @@ exports.GameSpace = class GameSpace {
 }
 
 exports.GamePiece = class GamePiece {
-    constructor(meta, properties, watchers){
-        this.meta = meta || {};
+    constructor(properties, watchers){
         this.properties = properties || new Map();
         this.watchers = watchers || [];
     }
+
+    setProperty()
 }
 
 exports.GameProperty = class GameProperty {
@@ -95,18 +96,21 @@ exports.SimpleGameAction = class GameAction {
         this.options = substituteArguments(this.options, args);
         switch(this.type){
             case 'setProperty':
-                var property = this.options.property;
-                var value = this.options.value;
-                var object = this.options.object;
-                var info = this.options.info;
-                object.setProperty(property, value, {method:'direct', ...info});
+                this.options.object.setProperty(this.options.property, this.options.value, {method:'direct', ...this.options.info});
                 break;
-            case 'addProperty': //TODO: Keep?
+            case 'addToProperty': //TODO: Adding AND pushing to arrays is... questionable but works. Javascript style ftw!
+                var property = this.options.property;
+                var value = this.options.value;
+                var object = this.options.object;
+                var info = this.options.info; //TODO: Not done at all
+                this.options.object.setProperty(this.options.property, this.options.value, {method:'indirect', ...this.options.info}); //TODO: Actually add
+                break;
+            case 'takeFromProperty': //TODO: Keep?
                 var property = this.options.property;
                 var value = this.options.value;
                 var object = this.options.object;
                 var info = this.options.info;
-                object.setProperty(property+object.getProperty(property), value, {method:'indirect', ...info});
+                this.options.object.setProperty(this.options.property, this.options.value, {method:'indirect', ...this.options.info}); //TODO: Actually add
                 break;
             //TODO: Push, pop, shift, unshift, etc. (basically array operations and map support)
             //TODO: Delete, create, and clone gameObjects
@@ -169,4 +173,10 @@ function substituteArguments(options, args){
         }
     });
     return options;
+}
+
+class FunctionNode {
+    constructor(){
+        
+    }
 }
