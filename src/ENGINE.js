@@ -1,5 +1,5 @@
 var Symbols = {
-    argument: new Symbol('argument')
+    argument: Symbol('argument')
 };
 
 exports.GameSpace = class GameSpace {
@@ -15,7 +15,9 @@ exports.GamePiece = class GamePiece {
         this.watchers = watchers || [];
     }
 
-    setProperty()
+    setProperty(){
+
+    }
 }
 
 exports.GameProperty = class GameProperty {

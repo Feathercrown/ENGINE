@@ -34,8 +34,8 @@ var test = new GameSpace({
                     name:'KLARI'
                 }
             ]))
-            .set('setup', new GameAction())
-            .set('setupArgs', new GameAction())
+            .set('setup', new SimpleGameAction())
+            .set('setupArgs', new SimpleGameAction())
         )
     )
     .set('setupHandler', new GamePiece(new Map()
